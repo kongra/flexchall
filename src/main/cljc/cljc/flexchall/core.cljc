@@ -3,7 +3,7 @@
      (:require
       [clojure.spec.alpha     :as    spec]
       [taoensso.timbre        :as     log]
-      #_[cljc.flexchall.service :as service]))
+      [cljc.flexchall.service :as service]))
 
   #?(:clj
      (:gen-class))
@@ -62,7 +62,7 @@
          (Thread. #(do (log/debug "Shutting down")
                        (shutdown-agents)))))
 
-     #_(service/start-blocking!)))
+     (service/start-blocking!)))
 
 ;; INSTRUMENTATION
 #?(:cljs
