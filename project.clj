@@ -27,6 +27,7 @@
   :plugins      [[lein-cljsbuild                 "1.1.7"]]
 
   :source-paths ["src/main/cljc"]
+  :test-paths   ["test/clojure"]
 
   :aot          :all
   ;; :pedantic? :warn
@@ -67,7 +68,7 @@
                                ;; "-verbose:gc"
                                ]
 
-                    :source-paths ["src/main/cljc"]}
+                    :source-paths ^:replace ["src/main/cljc"]}
 
              :dev  {:dependencies  [[com.bhauman/figwheel-main       "0.2.3" ]
                                     [com.bhauman/rebel-readline-cljs "0.1.4" ]]
@@ -84,13 +85,13 @@
                                   "-XX:+DoEscapeAnalysis"
                                   "-XX:+UseCompressedOops"]
 
-                    :source-paths ["src/main/cljc"]
+                    :source-paths ^:replace ["src/main/cljc"]
 
                     :resource-paths ["target"]}}
   :cljsbuild
   {:builds
    [{:id "flexchall-min"
-     :source-paths ["src/main/cljc"]
+     :source-paths ^:replace ["src/main/cljc"]
 
      :compiler {:output-to       "resources/public/js/flexchall.js"
                 :main             cljc.flexchall.core
