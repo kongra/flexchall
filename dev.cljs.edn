@@ -1,0 +1,11 @@
+^{:watch-dirs   ["src/main/cljc"]
+  :css-dirs     ["resources/public/css"]
+  :auto-testing false
+
+  ;; To use fig with cider/jetty/https:
+  ;; In FF about:config -> network.websocket.allowInsecureFromHTTPS=true
+  ;; Then:
+  :open-url "https://localhost:8443/fig"
+  }
+
+{:main cljc.flexchall.core}

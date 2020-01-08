@@ -1,0 +1,11 @@
+*jar
+.eastwood
+.lein-deps-sum
+.lein-plugins/
+.lein-repl-history
+.nrepl-port
+.rebel_readline_history
+.repl
+figwheel_server.log
+resources/public/js/flexchall.js
+target/
