@@ -18,7 +18,6 @@
                  [ring/ring-session-timeout      "0.2.0"]
                  [ring-cors                     "0.1.13"]
                  [compojure                      "1.6.1"]
-                 [liberator                     "0.15.3"]
 
                  [cheshire                       "5.9.0"]
 
