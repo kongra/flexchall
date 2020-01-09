@@ -10,7 +10,8 @@
 
   #?(:cljs
      (:require
-      [reagent.core :as r])))
+      [reagent.core        :as    r]
+      [cljc.flexchall.page :as page])))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -68,8 +69,8 @@
 #?(:cljs
    (defn- mount-app
      []
-     #_(r/render-component [html-app]
-         (-> js/document (.getElementById "dom-app")))))
+     (r/render-component [page/html-app]
+       (-> js/document (.getElementById "dom-app")))))
 
 #?(:cljs
    (defn ^:after-load onReload

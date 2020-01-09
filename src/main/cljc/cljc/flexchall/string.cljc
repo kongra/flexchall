@@ -12,15 +12,17 @@
 
 #?(:clj (set! *warn-on-reflection* true))
 
-(def ^:private gen-scramble-alpha
-  (gens/fmap char
-    (gens/one-of
-      ;;            \a..\z
-      [(gens/choose 97 122)])))
+#?(:clj
+   (def ^:private gen-scramble-alpha
+     (gens/fmap char
+       (gens/one-of
+         ;;            \a..\z
+         [(gens/choose 97 122)]))))
 
-(def ^:private gen-scramble-string
-  (gens/fmap clojure.string/join
-    (gens/vector gen-scramble-alpha)))
+#?(:clj
+   (def ^:private gen-scramble-string
+     (gens/fmap clojure.string/join
+       (gens/vector gen-scramble-alpha))))
 
 #?(:clj
    (spec/def ::scramble-string

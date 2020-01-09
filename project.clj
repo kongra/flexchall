@@ -12,6 +12,7 @@
 
                  [reagent                        "0.8.1"]
                  [hiccup                         "1.0.5"]
+                 [cljs-http                     "0.1.46"]
                  [ring/ring-core                 "1.8.0"]
                  [ring/ring-jetty-adapter        "1.8.0"]
                  [ring/ring-ssl                  "0.3.0"]

@@ -12,9 +12,7 @@
       [cheshire.core         :as cheshire]
 
       [cljc.flexchall.string :as     flex]
-
-      [hiccup.page
-       :refer [html5]]
+      [cljc.flexchall.page   :as     page]
 
       [ring.middleware.params
        :refer [wrap-params]]
@@ -34,10 +32,10 @@
    (def ^:private NOT-FOUND-404
      (route/not-found "404 Not Found!")))
 
-#?(:clj (declare html-app html-fig scramble-handler))
+#?(:clj (declare scramble-handler))
 #?(:clj
    (defroutes ROUTES
-     (GET  "/"        []         html-app)
+     (GET  "/"        []    page/html-app)
      (GET "/scramble" [] scramble-handler)
 
      ;; Public static resources
@@ -48,7 +46,7 @@
      ;; Figwheel stuff
      (or (when (= "true" (System/getProperty "cljc.flexchall.repl"))
            (log/debug "Figwheel will be served at /fig")
-           (GET "/fig" [] html-fig))
+           (GET "/fig" [] page/html-fig))
 
        NOT-FOUND-404)
 
@@ -178,51 +176,6 @@
    (when (and (= "true" (System/getProperty "cljc.flexchall.repl")) (nrepl?))
      (restart!)))
 
-;; HTML TEMPLATES
-#?(:clj
-   (defn html-app-template
-     ([request]
-      (html-app-template request nil))
-
-     ([request {:keys [fig?]}]
-      (html5
-        [:html {:lang "en"}
-         [:head
-          [:meta {:charset "utf-8"}]
-          [:meta {:name    "viewport"
-                  :content "user-scalable=no,
-                          initial-scale=1,
-                          maximum-scale=1,
-                          minimum-scale=1,
-                          width=device-width,
-                          height=device-height"}]
-
-          [:meta {:name "apple-mobile-web-app-capable" :content "yes"     }]
-          [:meta {:name "mobile-web-app-capable"       :content "yes"     }]
-          [:meta {:http-equiv "x-ua-compatible"        :content "ie=edge" }]
-          [:meta {:http-equiv "Cache-Control"
-                  :content "no-cache,no-store,must-revalidate"            }]
-
-          [:meta {:http-equiv "Pragma"                 :content "no-cache"}]
-          [:meta {:http-equiv "Expires"                :content "0"       }]]
-
-         [:body
-          [:div#dom-app [:div "Loading..."]]
-          [:script
-           {:src (if-not fig?
-                   "/js/flexchall.js"
-                   "/js/cljs-out/dev-main.js")}]]]))))
-
-#?(:clj
-   (defn html-app
-     [request]
-     (html-app-template request)))
-
-#?(:clj
-   (defn html-fig
-     [request]
-     (html-app-template request {:fig? true})))
-
 ;; SCRAMBLE END-POINT
 #?(:clj
    (defn scramble-handler
@@ -234,12 +187,12 @@
            {"Content-Type" "application/json"}]
 
        (cond
-         (not (spec/valid? ::flex/scramble-string s))
+         (not (spec/valid? :cljc.flexchall.string/scramble-string s))
          {:status  400
           :headers json-content
           :body   (cheshire/encode {:error "Bad s"})}
 
-         (not (spec/valid? ::flex/scramble-string pattern))
+         (not (spec/valid? :cljc.flexchall.string/scramble-string pattern))
          {:status  400
           :headers json-content
           :body   (cheshire/encode {:error "Bad pattern"})}
