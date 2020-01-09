@@ -137,17 +137,23 @@
    (defn- hit-scramble!
      []
      (go
-       (let [resp
+       (let [s       @s-atom
+             pattern @pattern-atom
+             resp
              (<! (http/get "/scramble"
                    {:with-credentials? false
-                    :query-params {"s"       @s-atom
-                                   "pattern" @pattern-atom}}))]
+                    :query-params {"s"       s
+                                   "pattern" pattern}}))]
 
-         (if (:success resp)
-           (reset! message-atom
-             (if (-> resp :body :scramble?)
-               "Strings matching"
-               "Strings not matching"))
+         (when (and (= s @s-atom) (= pattern @pattern-atom))
+           ;; We only proceed when during the GET there were no changes,
+           ;; otherwise the resp(onse) refers to the outdated s and pattern
+           ;; values
+           (if (:success resp)
+             (reset! message-atom
+               (if (-> resp :body :scramble?)
+                 "Strings matching"
+                 "Strings not matching"))
 
-           (reset! message-atom
-             (-> resp :body :error)))))))
+             (reset! message-atom
+               (-> resp :body :error))))))))
